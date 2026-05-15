@@ -14,7 +14,7 @@ script, and trivially reversible.
 
 If you've ever wished:
 
-- the German labels in a particular INPA screen were in your language;
+- the original labels in a particular INPA screen were in your language;
 - a default sample period was different;
 - a unit-conversion factor was tweaked for your specific car;
 - a confusing acronym was spelled out;

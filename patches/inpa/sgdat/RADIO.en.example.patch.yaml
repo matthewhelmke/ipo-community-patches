@@ -38,12 +38,6 @@ patches:
     value: Faults
     notes: |
       Original: "Fehler". Fault-code submenu.
-  - index: 27
-    type: string
-    value: Status
-    notes: |
-      Original: "Status". Same word, but consistent capitalisation
-      with the rest of this patch.
   - index: 30
     type: string
     value: Control

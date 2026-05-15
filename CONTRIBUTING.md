@@ -100,6 +100,15 @@ If any of those fails, fix and re-test before submitting. Step 3 in
 particular catches the most common newcomer mistake: translating an
 EDIABAS job name or SGBD variant identifier and breaking the script.
 
+### Update INDEX.md
+
+[INDEX.md](./INDEX.md) at the repo root lists every patch in the
+repository — target IPO, language, encoding, one-line description.
+**Add a row for your patch in the same PR** that adds the patch file
+itself. Format is documented inside INDEX.md (a small table at the
+bottom). Keeps the index honest without a separate post-merge
+janitorial step.
+
 ## PR template (copy-paste into your PR body)
 
 ```markdown
@@ -125,6 +134,10 @@ EDIABAS job name or SGBD variant identifier and breaking the script.
 - [ ] Verified the result reads back correctly in `ipo-editor --readonly`
 - [ ] (Optional) Loaded the patched IPO in inpax / real INPA and
       visually confirmed the new labels
+
+## Index
+
+- [ ] Added a row for this patch in INDEX.md
 
 ## Source
 

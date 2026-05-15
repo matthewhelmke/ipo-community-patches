@@ -107,6 +107,10 @@ Examples:
 Multiple patches targeting the same IPO with different purposes can
 coexist in the same directory.
 
+> **Looking for a specific patch?** [INDEX.md](./INDEX.md) lists every
+> patch in this repo with its target IPO, language, encoding, and a
+> one-line description. Faster than walking the directory tree.
+
 ## Quick start — applying a patch from this repo
 
 ```bash

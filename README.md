@@ -160,11 +160,16 @@ hard to debug. Common traps:
 
 **Always check where a constant is used before editing it.** The
 [inpax CLI's disassembler](https://github.com/emdzej/inpax/tree/main/apps/cli)
-makes this fast:
+makes this fast. Install it once:
 
 ```bash
-# inpax disasm comes from the inpax CLI; install once via:
-#   npm i -g @emdzej/inpax-cli
+npm i -g @emdzej/inpax-cli
+```
+
+Then disassemble the IPO and search for references to the constant
+you're about to change:
+
+```bash
 inpax disasm RADIO.IPO | grep -B 2 -A 2 'const\[13\]'
 ```
 

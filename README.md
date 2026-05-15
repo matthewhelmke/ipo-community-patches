@@ -110,19 +110,17 @@ coexist in the same directory.
 ## Quick start — applying a patch from this repo
 
 ```bash
-# 1. Get inpax (one-time setup).
-git clone https://github.com/emdzej/inpax
-cd inpax
-pnpm install
-pnpm --filter @emdzej/inpax-ipo-editor build
+# 1. Install the tooling globally (one-time setup; requires Node 20+).
+npm i -g @emdzej/inpax-ipo-editor
 
 # 2. Grab the patch from this repo.
 git clone https://github.com/emdzej/ipo-community-patches
+cd ipo-community-patches
 
 # 3. Apply.
-pnpm exec ipo-editor patch apply \
+ipo-editor patch apply \
   ~/Downloads/inpa/EC-APPS/INPA/SGDAT/RADIO.IPO \
-  ../ipo-community-patches/patches/inpa/sgdat/RADIO.en.example.patch.yaml \
+  patches/inpa/sgdat/RADIO.en.example.patch.yaml \
   -o ~/Downloads/inpa/EC-APPS/INPA/SGDAT/RADIO.IPO.patched
 ```
 
@@ -165,7 +163,9 @@ hard to debug. Common traps:
 makes this fast:
 
 ```bash
-pnpm exec inpax disasm RADIO.IPO | grep -B 2 -A 2 'const\[13\]'
+# inpax disasm comes from the inpax CLI; install once via:
+#   npm i -g @emdzej/inpax-cli
+inpax disasm RADIO.IPO | grep -B 2 -A 2 'const\[13\]'
 ```
 
 …will show you the bytecode around every reference to `const[13]`,
@@ -201,7 +201,7 @@ A patch is generated from an IPO + your edits. The standard flow:
 ### 1. Generate a starter
 
 ```bash
-pnpm exec ipo-editor patch init \
+ipo-editor patch init \
   ~/Downloads/inpa/EC-APPS/INPA/SGDAT/RADIO.IPO \
   --location inpa \
   --description 'English translation of RADIO labels' \
@@ -244,13 +244,13 @@ changed need to ship.
 ### 3. Apply and test
 
 ```bash
-pnpm exec ipo-editor patch apply \
+ipo-editor patch apply \
   ~/Downloads/inpa/EC-APPS/INPA/SGDAT/RADIO.IPO \
   RADIO.en.<your-tag>.patch.yaml \
   -o /tmp/RADIO.en.IPO
 
 # Sanity-check by viewing the patched file in the TUI:
-pnpm exec ipo-editor /tmp/RADIO.en.IPO
+ipo-editor /tmp/RADIO.en.IPO
 ```
 
 If your patch is for a non-cp1252 language (Polish, Czech, Cyrillic,

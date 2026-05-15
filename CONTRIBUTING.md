@@ -75,13 +75,13 @@ Before opening the PR, verify locally:
 
 ```bash
 # 1. The patch applies cleanly to a real IPO.
-pnpm exec ipo-editor patch apply \
+ipo-editor patch apply \
   /path/to/source.ipo your-patch.yaml --dry-run
 
 # 2. The result is byte-valid (apply + re-read).
-pnpm exec ipo-editor patch apply \
+ipo-editor patch apply \
   /path/to/source.ipo your-patch.yaml -o /tmp/result.ipo
-pnpm exec ipo-editor /tmp/result.ipo --readonly
+ipo-editor /tmp/result.ipo --readonly
 # Browse through, confirm your strings appear correctly.
 
 # 3. Verify the script still works end-to-end. Load the patched IPO

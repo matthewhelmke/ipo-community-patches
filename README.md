@@ -124,14 +124,71 @@ point — you can't accidentally translate the wrong revision. If you
 *know* the deviation is benign, override with `--ignore-checksum`,
 but verify the result first.
 
+## ⚠ Before you change anything — read this
+
+**Not every string in an IPO is a user-facing label.** The constant pool
+is a flat list of every literal the script uses, mixed together: UI
+labels, job names passed to EDIABAS, ECU variant identifiers, format
+specifiers, error keys, internal markers. They all look the same in
+`patch init` output.
+
+Modifying the wrong one will silently break the script in ways that are
+hard to debug. Common traps:
+
+- **EDIABAS job names** — strings like `"INITIALISIERUNG"`, `"IDENT"`,
+  `"STATUS_LESEN"`, `"FS_LESEN"`. These get passed to `INPAapiJob` and
+  must match a job name in the target SGBD (`.PRG` file) verbatim.
+  Translating `"INITIALISIERUNG"` → `"INITIALIZATION"` makes the script
+  call a non-existent job. The radio never initialises. Nothing displays.
+- **SGBD / ECU variant names** — strings like `"RADIO"`, `"RAD_83"`,
+  `"MS43"`. The script compares these against `VARIANTE` from EDIABAS;
+  a mismatch trips the "Steuergerät nicht gefunden" error path and the
+  script exits.
+- **Result-field keys** — strings like `"ID_BMW_NR"`, `"JOB_STATUS"`,
+  `"STAT_LL_EIN"`. Used to look up values from EDIABAS job results.
+  Rewriting them returns "field not found".
+- **Format strings** — `"4.2"`, `"%5.2f"`, etc. These control how
+  numeric values render. Editing them changes precision / width.
+- **Constant filenames** — `"inpa.h"` and other include references.
+  Internal; leave alone.
+
+**Always check where a constant is used before editing it.** The
+[inpax CLI's disassembler](https://github.com/emdzej/inpax/tree/main/apps/cli)
+makes this fast:
+
+```bash
+pnpm exec inpax disasm RADIO.IPO | grep -B 2 -A 2 'const\[13\]'
+```
+
+…will show you the bytecode around every reference to `const[13]`,
+so you can tell whether it's loaded as an argument to `text` (UI),
+to `INPAapiJob` (job name — don't touch), or somewhere else.
+
+**Default to the conservative path:**
+
+1. Generate a patch in `--with-notes` mode.
+2. Disassemble the IPO once and keep it open as a reference.
+3. For every constant you intend to change, locate its usage. If you
+   can't explain in one sentence what it does, **don't change it**.
+4. Test the result before submitting. A patched IPO that crashes the
+   script at load time is more useful as a learning experience than as
+   a community contribution.
+
+When in doubt: **smaller patches are better**. A patch that changes
+three labels you're certain about is more valuable than one that
+changes thirty and breaks two of them.
+
 ## Creating a patch — overview
 
 A patch is generated from an IPO + your edits. The standard flow:
 
 1. **Generate a starter patch** listing every string in the IPO.
-2. **Edit the YAML** with your changes (translation, term swaps, …).
-3. **Test by applying** to a fresh copy of the IPO.
-4. **Open a PR** to this repo.
+2. **Disassemble the IPO** and verify which constants are UI labels
+   (see warning above — this step is not optional for non-trivial
+   patches).
+3. **Edit the YAML** with your changes (translation, term swaps, …).
+4. **Test by applying** to a fresh copy of the IPO.
+5. **Open a PR** to this repo.
 
 ### 1. Generate a starter
 

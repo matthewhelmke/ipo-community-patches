@@ -84,12 +84,21 @@ pnpm exec ipo-editor patch apply \
 pnpm exec ipo-editor /tmp/result.ipo --readonly
 # Browse through, confirm your strings appear correctly.
 
-# 3. If your patch is non-cp1252, test the encoding round-trip in
+# 3. Verify the script still works end-to-end. Load the patched IPO
+#    in inpax (or real INPA, if you have it) and exercise the screens
+#    your patch touches. Watch for "job not found", "Steuergerät nicht
+#    gefunden", or other runtime errors — those mean you've modified
+#    a constant that isn't a UI label (see "Constants are not all UI
+#    labels" in the README).
+
+# 4. If your patch is non-cp1252, test the encoding round-trip in
 #    inpax — load /tmp/result.ipo with --input-encoding cp1250
 #    (or whatever you targeted) and verify the strings render.
 ```
 
-If any of those fails, fix and re-test before submitting.
+If any of those fails, fix and re-test before submitting. Step 3 in
+particular catches the most common newcomer mistake: translating an
+EDIABAS job name or SGBD variant identifier and breaking the script.
 
 ## PR template (copy-paste into your PR body)
 
@@ -139,6 +148,14 @@ README).
 
 ## Style notes for translations
 
+- **Identify the label before translating it.** The constant pool
+  mixes UI strings with EDIABAS job names, ECU variant identifiers,
+  result-field keys, and format strings. The README's *"Before you
+  change anything"* section lists the traps in detail; the short
+  version is that strings looking like `INITIALISIERUNG`,
+  `STATUS_LESEN`, `RADIO`, or `JOB_STATUS` are almost certainly
+  **not** UI labels and **must not be translated**. Use
+  `inpax disasm` to verify usage before editing.
 - **Keep label length** roughly comparable to the original — INPA
   paints into a fixed 80-column grid, and a label that grows from 8
   to 30 characters may clip in the UI.

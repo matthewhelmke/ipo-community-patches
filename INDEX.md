@@ -26,7 +26,7 @@ Last reviewed: 2026-05-15
 
 ---
 
-## NFS — commercial-vehicle service
+## NFS — flashing
 
 ### `patches/nfs/sgdat/`
 

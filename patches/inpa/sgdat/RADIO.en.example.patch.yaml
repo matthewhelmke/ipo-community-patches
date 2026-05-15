@@ -1,0 +1,52 @@
+inpax_patch_version: 1
+original:
+  name: RADIO.IPO
+  location: inpa
+  checksum:
+    algorithm: sha256
+    value: 8b3edfee580000ac8b71b79660daf2cdb922e4ab511ab82bd77def28b89e3341
+target_encoding: cp1252
+description: |
+  Example patch — minimal English translation of a handful of menu
+  labels in BMW's RADIO.IPO (the diagnostic script for old BM5x-series
+  radios, address 0x68 on the K-bus / I-bus).
+
+  Intended as a template for newcomers — open it, change the values,
+  resubmit. The German labels here are the original strings; the
+  English replacements are short, equivalent, and stay within cp1252.
+
+  If your local copy of RADIO.IPO has a different checksum, this
+  patch is targeting a different distribution. Regenerate against
+  your own copy with `ipo-editor patch init RADIO.IPO` and adapt.
+
+created_at: 2026-05-15T08:00:00.000Z
+patches:
+  - index: 13
+    type: string
+    value: Main Menu
+    notes: |
+      const[13] — top of the main diagnostic menu.
+      Original: "Hauptmenü"
+  - index: 18
+    type: string
+    value: Identification
+    notes: |
+      Original: "Ident". The submenu that runs the IDENT job to read
+      the radio's BMW part number, software revision, etc.
+  - index: 24
+    type: string
+    value: Faults
+    notes: |
+      Original: "Fehler". Fault-code submenu.
+  - index: 27
+    type: string
+    value: Status
+    notes: |
+      Original: "Status". Same word, but consistent capitalisation
+      with the rest of this patch.
+  - index: 30
+    type: string
+    value: Control
+    notes: |
+      Original: "Steuern". The submenu that exposes button-emulation
+      jobs (volume, seek, fader, frequency tune).

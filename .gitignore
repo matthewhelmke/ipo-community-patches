@@ -1,0 +1,17 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Anything that looks like an IPO file should never live in this
+# repo — patches reference IPOs by SHA-256, they don't embed them.
+# Ignoring at the gitignore level catches accidental drag-and-drop.
+*.ipo
+*.IPO
+
+# Temp work products from local testing.
+*.patched
+/tmp/

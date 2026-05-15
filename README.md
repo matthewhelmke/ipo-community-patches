@@ -286,6 +286,12 @@ Greek, …), **read the encoding caveat below before submitting**.
 
 ## Submitting a patch — fork → PR workflow
 
+> **Detail goes deeper in [CONTRIBUTING.md](./CONTRIBUTING.md)** —
+> file-naming rules, the patch schema spec, a copy-paste PR template,
+> pre-submission validation steps, and style notes for translators.
+> The summary below is the 30-second version; the linked document is
+> the one you'll want open while preparing the PR.
+
 1. **Fork** this repository on GitHub.
 2. **Clone your fork** locally.
 3. **Add your patch file** under the appropriate
@@ -298,7 +304,8 @@ Greek, …), **read the encoding caveat below before submitting**.
 5. **Push to your fork** and **open a Pull Request** against `main` of
    the upstream repo.
 
-The PR template will ask for:
+The PR template (see [CONTRIBUTING](./CONTRIBUTING.md#pr-template-copy-paste-into-your-pr-body))
+will ask for:
 
 - Which IPO the patch targets, and where in the install it lives
 - What language / purpose
@@ -307,7 +314,7 @@ The PR template will ask for:
 - Source attribution if the translation is derivative of another
   community translation
 
-Maintainers will run the patch through `inpax-ipo-editor patch apply`
+Maintainers will run the patch through `ipo-editor patch apply`
 on a reference IPO to verify the YAML parses, the checksum is real,
 and the file ends up byte-valid. **Patches with wrong checksums or
 schema errors will get a comment, not a rejection** — small fixes

@@ -44,17 +44,25 @@ dealer network:
   under `NCSEXPER/`.
 
 All three programs share **the same IPO interpreter** and **the same
-script format**. A patch that targets a string constant in a RADIO
-script works identically whether you load it in INPA, NFS, or NCS
-Expert — only the script library differs between them.
+script format** — but they ship **different script libraries** for
+different jobs. INPA's library is diagnostic (read fault codes, watch
+live sensor data), NCS Expert's is coding-oriented (read/write option
+bytes), NFS targets commercial-vehicle ECUs. So a RADIO diagnostic
+script is part of INPA/NFS, not NCS Expert; an NCS Expert coding
+script wouldn't be useful inside INPA. The interpreter is shared, the
+*purpose* of each app's script set is not.
+
+What this means for patches: the same patch *format* and the same
+**inpax-ipo-editor** tooling work across all three product trees.
+You'll just always be patching a script in whichever tree it
+naturally belongs to.
 
 **IPS** is the source language IPO files are compiled from. C-like
-syntax, BMW-internal. You won't find IPS sources in any public BMW
-distribution — they only ship the compiled IPOs. The
-[inpax-compiler](https://github.com/emdzej/inpax/tree/main/apps/inpax-compiler)
-can compile IPS → IPO if you happen to have IPS source, but for
-99% of community work you'll be patching an existing IPO with no
-source available.
+syntax, BMW-internal. Only a handful of IPS sources have surfaced
+publicly over the years — the vast majority of scripts in any BMW
+install ship only as compiled IPOs, with no corresponding IPS — so
+recompiling from source is rarely an option. Patches are what fills
+the gap.
 
 > **Why patches instead of just shipping modified IPOs?**
 > Three reasons. **Auditability** — a patch is a small human-readable

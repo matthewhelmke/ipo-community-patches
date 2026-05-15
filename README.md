@@ -193,7 +193,30 @@ changes thirty and breaks two of them.
 
 ## Creating a patch — overview
 
-A patch is generated from an IPO + your edits. The standard flow:
+There are **two ways** to build a patch, both producing the same YAML
+file format. Pick whichever fits how you like to work:
+
+- **The YAML route** *(documented below)* — generate a starter patch
+  with `ipo-editor patch init`, edit the file in your text editor of
+  choice, apply to verify. Best for translation work where you want
+  a flat overview of every string, version-control diff visibility,
+  and the ability to share half-finished work as plain text. Steps
+  1-5 below.
+
+- **The TUI route** — open the IPO directly with `ipo-editor`,
+  navigate to each constant, press Enter to edit, repeat. When you're
+  done, press `P` and the editor exports your changes as
+  `<file>.patch.yaml` — same format as a hand-edited patch, ready to
+  submit. Best for ad-hoc fixes where you don't want to see all the
+  strings at once and prefer immediate keyboard-driven editing.
+  See [inpax-ipo-editor docs](https://github.com/emdzej/inpax/tree/main/apps/ipo-editor#tui-keymap-list-mode)
+  for the keymap.
+
+Whichever route you take, the resulting patch goes through the same
+verification flow (apply with `--dry-run`, eyeball the result, then
+open a PR).
+
+The numbered guide below covers the YAML route step-by-step.
 
 1. **Generate a starter patch** listing every string in the IPO.
 2. **Disassemble the IPO** and verify which constants are UI labels

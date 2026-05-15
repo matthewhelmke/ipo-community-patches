@@ -333,8 +333,6 @@ If you submit a patch, you agree to release your translation under CC0.
 - **[ediabasx](https://github.com/emdzej/ediabasx)** — sibling project
   reimplementing EDIABAS (the layer below INPA — handles cable / DS2 /
   CAN protocol).
-- **[bimmerz](https://github.com/emdzej/bimmerz)** — I-bus monitoring SDK
-  for listen-only access to BMW peer-to-peer messages.
 
 ## Questions, issues
 
